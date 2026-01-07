@@ -25,7 +25,7 @@ use crate::{
 };
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<(), anyhow::Error> {
     tracing_subscriber::fmt::init();
 
     let config = Config::from_env()
@@ -65,7 +65,8 @@ async fn main() {
 
     let listener = tokio::net::TcpListener::bind(addr).await.unwrap();
     axum::serve(listener, app).await.unwrap();
-    
+
+    Ok(())
 }
 
 async fn health_check() -> &'static str {
